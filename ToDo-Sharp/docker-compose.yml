@@ -1,0 +1,11 @@
+﻿version: "3"
+services:
+  db:
+   image: postgres:latest
+   restart: unless-stopped
+   environment:
+      POSTGRES_DB: "taskdb"
+      POSTGRES_USER: "sampleLogin"
+      POSTGRES_PASSWORD: "samplePassword"
+   ports:
+     - "5432:5432"

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>TaskMenu</h1>
+    <input type="button" onclick="location.href='https://@ViewBag.Domain/AddTaskMenu';" value="Add task menu" />
+    <input type="button" onclick="Logout();" value="Logout" />
+    @foreach(dynamic task in ViewBag.Tasks)
+        {
+        string isCompleted;
+        if (task.IsCompleted)
+        {
+            isCompleted = "+";
+        }
+        else
+        {
+            isCompleted = "-";
+        }
+        <pre>
+Название задачи: @task.Name
+Описание задачи: @task.Description
+Задача завершена: @isCompleted <input type="button" value="Do task" onclick="DoTask(@task.Id);">
+            </pre>
+
+           
+        }
+    
+</body>
+<script>
+    function Logout(){
+        const XHR = new XMLHttpRequest();
+
+        XHR.open('POST', 'https://@ViewBag.Domain/Logout',false);
+
+        XHR.send();
+
+        window.location.replace("https://@ViewBag.Domain/LoginPage");
+    }
+    function DoTask(id){
+        const XHR = new XMLHttpRequest();
+        XHR.onreadystatechange = () => { // Call a function when the state changes.
+            if (XHR.readyState === XMLHttpRequest.DONE && XHR.status === 200) {
+                alert("Task is done");
+            }else if (XHR.readyState === XMLHttpRequest.DONE && XHR.status === 400){
+                alert("Error while doing the task: "+XHR.responseText);
+                return;
+            }
+        }
+
+        // Define what happens in case of an error
+        XHR.addEventListener('error', (event) => {
+            alert('Error while doing task');
+        });
+        // Set up our request
+        XHR.open('POST', 'https://@ViewBag.Domain/Task/Do?id='+id,false);
+
+        // Add the required HTTP header for form data POST requests
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Finally, send our data.
+        XHR.send();
+
+        window.location.reload();
+    }
+</script>
+</html>

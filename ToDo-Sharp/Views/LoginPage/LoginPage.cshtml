@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Login page</h1>
+    <form action=https://@ViewBag.Domain/Auth method = "post" onsubmit="RedirectToTasksMenu();">
+        <label>Login: </label>
+        <input type="text" name="Login" /><br />
+
+        <label>Password: </label>
+        <input type="text" name="Password" /><br />
+
+        <input type="submit" value="Log in" />
+    </form>
+</body>
+<script>
+    function RedirectToTasksMenu() {
+        window.location.replace("https://@ViewBag.Domain/TasksMenu");
+    }
+</script>
+</html>
